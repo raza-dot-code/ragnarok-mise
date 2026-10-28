@@ -13,7 +13,10 @@ Static HTML/CSS/JavaScript, no dependencies or build step. On Vercel use the Oth
 - Service finder with a local recommendation and prefilled request.
 - Swipeable/keyboard-accessible service gallery with arrows and desktop pointer dragging.
 - Equipment accordion, interactive maintenance brief and two-step request preview.
-- Reveal transitions, subtle media-shape changes, pointer interaction and chapter navigation.
+- Stationary, centered “In good hands” seal beneath the film, outside its clipped frame.
+- Custom orbital cursor with arrow, Watch and Drag states, responsive click feedback and magnetic CTA arrows.
+- Eased desktop wheel scrolling, scroll progress, subtle photo parallax, reveal transitions and chapter navigation.
+- Native touch scrolling, keyboard/scrollbar control and form editing; all decorative motion can be paused.
 - Reduced-motion preferences, global motion pause, keyboard navigation and responsive layouts.
 
 ## Scope

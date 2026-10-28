@@ -11,7 +11,7 @@ const filmDialog=document.querySelector('#film-dialog');
 const fullFilm=document.querySelector('#full-film');
 function syncFilmButton(){const p=film.paused;filmPause.innerHTML=`<span aria-hidden="true">${p?'▶':'Ⅱ'}</span> ${p?'Play':'Pause'} film`;filmPause.setAttribute('aria-label',`${p?'Play':'Pause'} background film`);}
 function playBackground(){if(!paused&&!userPausedFilm&&filmInView&&!document.hidden&&!filmDialog.open)film.play().catch(syncFilmButton);}
-function setMotion(value){paused=value;root.classList.toggle('motion-paused',value);motionToggle.setAttribute('aria-pressed',String(value));motionToggle.setAttribute('aria-label',`${value?'Resume':'Pause'} decorative motion`);motionToggle.innerHTML=`<span aria-hidden="true">${value?'▶':'Ⅱ'}</span>`;if(value)film.pause();else playBackground();}
+function setMotion(value){paused=value;root.classList.toggle('motion-paused',value);motionToggle.setAttribute('aria-pressed',String(value));motionToggle.setAttribute('aria-label',`${value?'Resume':'Pause'} decorative motion`);motionToggle.innerHTML=`<span aria-hidden="true">${value?'▶':'Ⅱ'}</span>`;if(value)film.pause();else playBackground();document.dispatchEvent(new CustomEvent('mise:motion',{detail:{paused:value}}));}
 film.addEventListener('play',syncFilmButton);film.addEventListener('pause',syncFilmButton);film.addEventListener('error',syncFilmButton);
 setMotion(paused);motionToggle.addEventListener('click',()=>setMotion(!paused));reduced.addEventListener('change',e=>setMotion(e.matches));
 filmPause.addEventListener('click',()=>{if(film.paused){userPausedFilm=false;film.play().catch(syncFilmButton);}else{userPausedFilm=true;film.pause();}});
@@ -67,4 +67,3 @@ if('IntersectionObserver' in window){const observer=new IntersectionObserver(ent
 const stage=document.querySelector('#film-stage');const chapterNav=document.querySelector('.chapter-nav');let scrolling=false;
 function scrollFrame(){chapterNav.classList.toggle('visible',scrollY>innerHeight*.85);if(!paused&&innerWidth>620){const rect=stage.getBoundingClientRect();if(rect.top<innerHeight&&rect.bottom>0){const p=Math.max(0,Math.min(1,(innerHeight-rect.top)/(innerHeight+rect.height)));const radius=Math.round(140-p*95);stage.style.borderRadius=`${radius}px ${radius}px 8px 8px`;}}scrolling=false;}
 window.addEventListener('scroll',()=>{if(!scrolling){scrolling=true;requestAnimationFrame(scrollFrame);}},{passive:true});scrollFrame();
-if(matchMedia('(pointer:fine) and (hover:hover)').matches)stage.addEventListener('pointermove',e=>{if(paused)return;const r=stage.getBoundingClientRect();stage.style.setProperty('--cx',`${e.clientX-r.left}px`);stage.style.setProperty('--cy',`${e.clientY-r.top}px`);},{passive:true});

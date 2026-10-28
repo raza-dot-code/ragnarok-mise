@@ -1,0 +1,127 @@
+/* A stationary seal, safely outside the film's clipped frame. */
+.film-caption {
+  display: grid;
+  grid-template-columns: 1fr 112px 1fr;
+  align-items: center;
+  gap: 30px;
+  padding: 24px 12px 0;
+}
+.film-caption > span {
+  font-size: 8px;
+  line-height: 1.9;
+  letter-spacing: 1.6px;
+  color: #acbad4;
+}
+.film-caption > span:last-child { text-align: right; }
+.care-note {
+  display: grid;
+  place-items: center;
+  width: 112px;
+  height: 112px;
+  padding: 18px;
+  border-radius: 50%;
+  background: var(--lilac);
+  color: var(--navy);
+  font: 28px/1.03 Instrument, Georgia, serif;
+  text-align: center;
+  transform: rotate(var(--seal-turn, -7deg));
+  position: relative;
+}
+.care-note::before {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border: 1px solid #14244222;
+  border-radius: inherit;
+}
+.care-note > span { white-space: nowrap; }
+.reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  z-index: 90;
+  pointer-events: none;
+}
+.reading-progress i {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #bdc6fa;
+  box-shadow: 0 0 12px #bdc6fa55;
+  transform: scaleX(0);
+  transform-origin: left;
+}
+html.wheel-easing { scroll-behavior: auto; }
+.pill > span, .nav-request > span { transition: translate .18s ease-out; }
+#mise-cursor {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  pointer-events: none;
+  mix-blend-mode: difference;
+  opacity: 0;
+  color: #fff;
+  transition: opacity .15s;
+}
+#mise-cursor.is-visible { opacity: 1; }
+.cursor-core, .cursor-orbit {
+  position: absolute;
+  left: 0;
+  top: 0;
+  translate: -50% -50%;
+  will-change: transform;
+  border-radius: 50%;
+}
+.cursor-core { width: 5px; height: 5px; background: #fff; transition: opacity .15s; }
+.cursor-orbit {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  transition: width .25s var(--ease), height .25s var(--ease), background .2s, color .2s;
+}
+.cursor-orbit::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid #ffffff9c;
+  border-top: 3px solid #fff;
+  border-radius: inherit;
+  transform: rotate(var(--orbit-turn, 0deg));
+}
+.cursor-glyph { font: 22px/1 Manrope, sans-serif; }
+.cursor-word { font: 600 8px/1 Manrope, sans-serif; letter-spacing: 1px; }
+.cursor-word:empty, .cursor-glyph:empty { display: none; }
+#mise-cursor[data-mode="link"] .cursor-orbit { width: 43px; height: 43px; background: #fff; color: #142442; }
+#mise-cursor[data-mode="watch"] .cursor-orbit,
+#mise-cursor[data-mode="drag"] .cursor-orbit { width: 68px; height: 68px; background: #fff; color: #142442; }
+#mise-cursor[data-mode="watch"] .cursor-glyph { font-size: 16px; padding-left: 2px; }
+#mise-cursor:not([data-mode="default"]) .cursor-core { opacity: 0; }
+#mise-cursor.is-down .cursor-orbit { width: 28px; height: 28px; }
+#mise-cursor.is-down .cursor-word { display: none; }
+@media (hover: hover) and (pointer: fine) {
+  html.cursor-active, html.cursor-active * { cursor: none !important; }
+}
+@media (min-width: 851px) and (hover: hover) and (pointer: fine) {
+  .service-photo img.motion-layer { transform: translateY(var(--drift, 0px)) scale(1.12); transition: filter .4s; }
+  .service-photo:hover img.motion-layer { filter: saturate(1.08); }
+  .collage-main.motion-layer, .collage-small.motion-layer { translate: 0 var(--drift, 0px); }
+}
+.motion-paused .motion-layer { translate: none !important; transform: none !important; }
+.motion-paused #mise-cursor { display: none; }
+.motion-paused .pill > span, .motion-paused .nav-request > span { translate: none !important; }
+@media (max-width: 620px) {
+  #mise-cursor { display: none; }
+  .film-caption { grid-template-columns: 1fr; gap: 0; padding: 22px 0 0; }
+  .film-caption > span { display: none; }
+  .care-note { justify-self: center; width: 92px; height: 92px; font-size: 25px; padding: 10px; }
+}
+@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  #mise-cursor { display: none; }
+  .motion-layer { translate: none !important; transform: none !important; }
+}
